@@ -1,13 +1,11 @@
-import java.util.stream.IntStream;
-
-import static java.util.stream.IntStream.*;
+import static java.util.stream.IntStream.range;
 
 /**
  * A representation of state and logic for an elevator.
  *
  * @author Anders Lindström, anderslm@kth.se
  */
-public class ElevatorLogic {
+public class ElevatorLogic_v2 {
 
     /**
      * Represents states for a floor: not selected, called for up, down or for a
@@ -28,7 +26,7 @@ public class ElevatorLogic {
      * @param nrOfFloors the requested number of floors
      * @throws IllegalArgumentException if number of floors is less than 2
      */
-    public ElevatorLogic(int nrOfFloors) {
+    public ElevatorLogic_v2(int nrOfFloors) {
         if (nrOfFloors < 2) throw new IllegalArgumentException("noOfFloors too low: " + nrOfFloors);
         floors = new Choice[nrOfFloors];
         range(0, floors.length).forEach(i -> floors[i] = Choice.Not);
@@ -39,12 +37,11 @@ public class ElevatorLogic {
     /**
      * Construct a new elevator with 4 floors.
      */
-    public ElevatorLogic() {
-        this(DEFAULT_NUM_OF_FLOORS);
-//        floors = new Choice[DEFAULT_NUM_OF_FLOORS];
-//        range(0, floors.length).forEach(i -> floors[i] = Choice.Not);
-//        currentFloor = 0;
-//        directionUp = true;
+    public ElevatorLogic_v2() {
+        floors = new Choice[DEFAULT_NUM_OF_FLOORS];
+        range(0, floors.length).forEach(i -> floors[i] = Choice.Not);
+        currentFloor = 0;
+        directionUp = true;
     }
 
     /**
@@ -81,7 +78,6 @@ public class ElevatorLogic {
      * @param floor The selected floor
      */
     public void selectFloor(int floor) {
-//        if (floors )
         this.floors[floor] = Choice.To;
     }
 
@@ -137,10 +133,10 @@ public class ElevatorLogic {
         if (next != -1) {
             if (directionUp) {
                 this.currentFloor += 1;
-                if (floors[currentFloor] != Choice.Down || currentFloor == floors.length -1 ) this.floors[currentFloor] = Choice.Not;
+                if (floors[currentFloor] == Choice.Up || floors[currentFloor] == Choice.To || currentFloor == floors.length -1 ) this.floors[currentFloor] = Choice.Not;
             } else {
                 this.currentFloor -= 1;
-                if (floors[currentFloor] != Choice.Up || currentFloor == 0 ) this.floors[currentFloor] = Choice.Not;
+                if (floors[currentFloor] == Choice.Down || floors[currentFloor] == Choice.To || currentFloor == 0 ) this.floors[currentFloor] = Choice.Not;
             }
             return true;
         }
@@ -156,7 +152,9 @@ public class ElevatorLogic {
     public String toString() {
         StringBuilder info = new StringBuilder("[ ");
         for (Choice floor : floors ) info.append(floor).append(" ");
-        info.append("] ").append("Current Floor: ").append(currentFloor).append(", Up = ").append(directionUp);
+        info.append("] ").append(", Up = ").append(directionUp).append("\n");
+
+
         return info.toString();
     }
 
