@@ -1,20 +1,41 @@
 import java.sql.SQLOutput;
+import java.util.Hashtable;
 
 public class Main {
 
     public static void main(String[] args) {
-        System.out.println(test(121));
+        String strs[] = {"a"};
+        System.out.println(longestCommonPrefix(strs));
     }
 
-    public static boolean test(int n) {
-        StringBuilder num = new StringBuilder();
-        num.append(n);
+    public static String longestCommonPrefix(String[] strs) {
+        StringBuilder r = new StringBuilder();
 
-        for (int i=0 ; i<num.length()-1 ; i++) {
-            if (num.charAt(i) != num.charAt(num.length()-i-1)) {return false;}
+        if (strs.length == 1 && strs[0].length()==0) return r.toString();
+
+        int shortestStrLength = strs[0].length() > 0 ? strs[0].length() : 0;
+        for (int i=1 ; i<strs.length ; i++) {
+            if (strs[i].length() < shortestStrLength) {
+                shortestStrLength = strs[i].length();
+            }
         }
 
-        return true;
+        int cIndex = 0;
+        char c = strs[0].charAt(cIndex);
+
+        for (int j=0 ; j<shortestStrLength ; j++) {
+            for (int i=1 ; i<strs.length ; i++) {
+                if (strs[i].charAt(cIndex) == c) {
+                    if (i!=strs.length-1) {continue;}
+                    r.append(c);
+                    cIndex++;
+                    c = strs[0].charAt(cIndex);
+                    continue;
+                }
+                break;
+            }
+        }
+        return r.toString();
     }
 }
 
