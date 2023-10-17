@@ -22,9 +22,7 @@ public class ProjectsManager {
      */
     public void setProjects(List<Project> incomingProjects) {
         projectList.clear();
-        for (Project project : incomingProjects) {
-            addProject(project.getTitle(), project.getDescription());
-        }
+        projectList.addAll(incomingProjects);
     }
 
     /**
@@ -68,11 +66,9 @@ public class ProjectsManager {
      * @return the project with the given id
      */
     public Project getProjectById(int id) {
-        Project copy;
         for (Project project : projectList) {
             if (project.getProjectId() == id) {
-                copy = new Project(project.getTitle(), project.getDescription(), id);
-                return copy;
+                return project;
             }
         }
         return null; // Project does not exist

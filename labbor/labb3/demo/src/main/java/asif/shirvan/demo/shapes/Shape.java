@@ -13,7 +13,6 @@ import javafx.scene.paint.Color;
  * depending on whether the added extra members defines absolute or relative
  * coordinates.
  *
- * @author Anders Lindström, anderslm@kth.se 2021-09-15
  */
 abstract public class Shape {
 

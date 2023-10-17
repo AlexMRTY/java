@@ -42,11 +42,9 @@ public class Project implements Comparable<Project>, Serializable {
      * @return taskList
      */
     public Task getTaskById(int id) {
-        Task copy;
         for (Task task : taskList) {
             if (task.getId() == id) {
-                copy = new Task(task.getDescription(), task.getPrio(), id);
-                return copy;
+                return task;
             }
         }
         return null; // Task does not exist
@@ -79,6 +77,10 @@ public class Project implements Comparable<Project>, Serializable {
         return taskList.remove(task);
     }
 
+    /**
+     * Returns the state of the project
+     * @return the state of the project
+     */
     public ProjectState getState() {
         if (taskList.size() == 0) return ProjectState.EMPTY;
         ProjectState state = ProjectState.COMPLETED;
@@ -91,6 +93,10 @@ public class Project implements Comparable<Project>, Serializable {
         return state;
     }
 
+/**
+     * Returns the date of the last update
+     * @return the date of the last update
+     */
     public LocalDate getLastUpdated() {
         if(taskList.size()==0) return this.created;
         LocalDate lastUpdated = taskList.get(0).getLastUpdate();
@@ -118,10 +124,22 @@ public class Project implements Comparable<Project>, Serializable {
 
     @Override
     public String toString() {
-        return "ID:" + this.id + "\n" +
-                "Title: " + this.title+ "\n" +
-                "Description:" + this.description + "\n" +
-                "State:" + getState() + "\n" +
-                "Last Updated: " + this.created + "\n";
+        return String.format(
+                "%n+------------------+-------------------------+%n" +
+                "| %-16s | %-23s |%n" +
+                "+------------------+-------------------------+%n" +
+                "| %-16s | %-23s |%n" +
+                "| %-16s | %-23s |%n" +
+                "| %-16s | %-23s |%n" +
+                "| %-16s | %-23s |%n" +
+                "| %-16s | %-23d |%n" +
+                "+------------------+-------------------------+%n",
+                "ID:", this.id,
+                "Title:", this.title,
+                "Description:", this.description,
+                "State:", getState(),
+                "Created:", this.created,
+                "Number of Tasks:", taskList.size()
+        );
     }
 }

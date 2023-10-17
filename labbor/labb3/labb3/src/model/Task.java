@@ -22,6 +22,7 @@ public class Task implements Comparable<Task>, Serializable{
         this.description = descr;
         this.prio = prio;
         this.id = id;
+        this.lastUpdate = LocalDate.now();
     }
 
     public int getId() {
@@ -52,14 +53,17 @@ public class Task implements Comparable<Task>, Serializable{
     public void setTakenBy(String takenBy) {
         if (takenBy == null) { throw new IllegalStateException("This task is already taken");}
         this.takenBy = takenBy;
+        this.lastUpdate = LocalDate.now();
     }
 
     public void setState(TaskState state) {
         this.state = state;
+        this.lastUpdate = LocalDate.now();
     }
 
     public void setPrio(TaskPrio prio) {
         this.prio = prio;
+        this.lastUpdate = LocalDate.now();
     }
 
     public LocalDate getLastUpdate() {
@@ -88,11 +92,23 @@ public class Task implements Comparable<Task>, Serializable{
 
     @Override
     public String toString() {
-        return "ID:" + this.id + "\n" +
-            "Taken By:" + this.takenBy + "\n" +
-            "State:" + this.state + "\n" +
-            "Last Updated: " + this.lastUpdate + "\n" +
-            "Priority: " + this.prio + "\n" +
-            "Description: " + this.description + "\n";
+
+        return String.format(
+                "%n+----------------+-------------------------+%n" +
+                "| %-14s | %-23s |%n" +
+                "+----------------+-------------------------+%n" +
+                "| %-14s | %-23s |%n" +
+                "| %-14s | %-23s |%n" +
+                "| %-14s | %-23s |%n" +
+                "| %-14s | %-23s |%n" +
+                "| %-14s | %-23s |%n" +
+                "+----------------+-------------------------+%n",
+                "ID:", this.id,
+                "Taken By:", this.takenBy,
+                "Description:", this.description,
+                "Priority:", this.prio,
+                "State:", this.state,
+                "Last Updated:", this.lastUpdate
+        );
     }
 }

@@ -13,6 +13,6 @@ public class TakenByMatcher implements ITaskMatcher{
     }
     @Override
     public boolean match(Task task) {
-        return Objects.equals(task.getTakenBy(), this.takenBy);
+        return this.takenBy.toLowerCase().contains(task.getTakenBy().toLowerCase());
     }
 }
